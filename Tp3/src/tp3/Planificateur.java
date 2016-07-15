@@ -1,9 +1,7 @@
 package tp3;
 
-import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.Enumeration;
 
 import javax.swing.plaf.FontUIResource;
@@ -21,12 +19,13 @@ public class Planificateur extends JFrame {
 
 //    public static final int BORDURE_X = 430;
 //    public static final int BORDURE_Y = 120;
-    JButton btnNouveaua;
-
+//champs section action
+    JPanel action;
+    JButton btnAjouter;
+    JButton btnSupprimer;
+//champ section detail
     JLabel Filler1;
     JLabel Filler2;
-    JLabel Filler3;
-    JLabel Filler4;
     JLabel titre;
     JLabel Heure;
     JLabel Description;
@@ -39,56 +38,20 @@ public class Planificateur extends JFrame {
     JPanel DetailItem1;
     JPanel DetailItem2;
     JPanel DetailItem3;
+    JButton btnSauvegarder;
+//champ secton ListeTitra
+//    JPanel ListeTitre;
+//    JLabel Titre1;
+    JList<String> ListeTitre;
 
     public Planificateur() {
         setUIFont(new FontUIResource(new Font("Arial", 0, 40)));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         contenu = getContentPane();
-        //Construction de la section detail
-        DetailItem = new JPanel();
-        DetailItem.setLayout(new GridLayout(3, 1));
-        DetailItem.setBackground(Color.LIGHT_GRAY);
-        DetailItem1 = new JPanel();
-        DetailItem1.setLayout(new GridLayout(4, 2));
-        DetailItem1.setBackground(Color.LIGHT_GRAY);
-        DetailItem2 = new JPanel();
-        DetailItem2.setLayout(new GridLayout(1, 2));
-        DetailItem2.setBackground(Color.LIGHT_GRAY);
-        DetailItem3 = new JPanel();
-        DetailItem3.setLayout(new GridLayout(1, 3));
-        DetailItem3.setBackground(Color.LIGHT_GRAY);
-
-        Filler1 = new JLabel("");
-        DetailItem1.add(Filler1);
-        Filler1 = new JLabel("");
-        DetailItem1.add(Filler1);
-        Filler1 = new JLabel("");
-        DetailItem1.add(Filler1);
-        Filler1 = new JLabel("");
-        DetailItem1.add(Filler1);
-
-        titre = new JLabel("Titre :");
-        DetailItem1.add(titre);
-        saisieTitre = new JTextField("");
-        DetailItem1.add(saisieTitre);
-
-        Heure = new JLabel("Heure :");
-        DetailItem1.add(Heure);
-        saisieHeure = new JTextField("");
-        DetailItem1.add(saisieHeure);
-
-        Description = new JLabel("Description : ");
-        DetailItem2.add(Description);
-        saisieDescription = new JTextArea("");
-        saisieDescription.setColumns(20);
-        saisieDescription.setRows(10);
-        DetailItem2.add(saisieDescription);
-
-        DetailItem.add(DetailItem1);
-        DetailItem.add(DetailItem2);
-        DetailItem.add(DetailItem3);
-        contenu.add(DetailItem, BorderLayout.CENTER);
+        afficheAction();
+        afficheListeTitre();
+        afficheDetail();
 
         //fin de section detail
         pack();
@@ -108,6 +71,91 @@ public class Planificateur extends JFrame {
                 UIManager.put(key, new FontUIResource(font));
             }
         }
+    }
+
+    private void afficheAction() {
+        //Construction de la section detail
+        action = new JPanel();
+        action.setLayout(new GridLayout(1, 4));
+
+        btnAjouter = new JButton("Ajouter");
+        btnSupprimer = new JButton("Supprimer");
+        Filler1 = new JLabel("");
+        action.add(Filler1);
+        action.add(btnAjouter);
+        action.add(btnSupprimer);
+        Filler1 = new JLabel("");
+        action.add(Filler1);
+
+        contenu.add(action, BorderLayout.NORTH);
+    }
+
+    private void afficheListeTitre() {
+        //Construction de la section detail
+        ListeTitre = new javax.swing.JList<>();
+
+//        ListeTitre.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        ListeTitre.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = {"Titre 1             ", "Titre 2", "Titre 3", "Titre 4", "Titre 5", "Titre 6", "Titre 7", "Titre 8", "Titre 9", "Titre 10"};
+
+            public int getSize() {
+                return strings.length;
+            }
+
+            public String getElementAt(int i) {
+                return strings[i];
+            }
+        });
+
+        contenu.add(ListeTitre, BorderLayout.WEST);
+    }
+
+    private void afficheDetail() {
+        //Construction de la section detail
+        DetailItem = new JPanel();
+        DetailItem.setLayout(new GridLayout(3, 1));
+        DetailItem.setBackground(Color.LIGHT_GRAY);
+        DetailItem1 = new JPanel();
+        DetailItem1.setLayout(new GridLayout(6, 2));
+        DetailItem1.setBackground(Color.LIGHT_GRAY);
+        DetailItem2 = new JPanel();
+        DetailItem2.setLayout(new GridLayout(1, 2));
+        DetailItem2.setBackground(Color.LIGHT_GRAY);
+        DetailItem3 = new JPanel();
+        DetailItem3.setLayout(new GridLayout(6, 2));
+        DetailItem3.setBackground(Color.LIGHT_GRAY);
+//ajout de champs vide pour avoir un hauteur de champs normal
+        for (int i = 1; i <= 8; ++i) {
+            Filler1 = new JLabel("");
+            DetailItem1.add(Filler1);
+        }
+
+        titre = new JLabel("Titre :");
+        DetailItem1.add(titre);
+        saisieTitre = new JTextField("");
+        DetailItem1.add(saisieTitre);
+
+        Heure = new JLabel("Heure :");
+        DetailItem1.add(Heure);
+        saisieHeure = new JTextField("");
+        DetailItem1.add(saisieHeure);
+
+        Description = new JLabel("Description : ");
+        DetailItem2.add(Description);
+        saisieDescription = new JTextArea("");
+        saisieDescription.setColumns(20);
+        saisieDescription.setRows(10);
+        DetailItem2.add(saisieDescription);
+
+        Filler2 = new JLabel("");
+        DetailItem3.add(Filler2);
+        btnSauvegarder = new JButton("Sauvegarder:");
+        DetailItem3.add(btnSauvegarder);
+
+        DetailItem.add(DetailItem1);
+        DetailItem.add(DetailItem2);
+        DetailItem.add(DetailItem3);
+        contenu.add(DetailItem, BorderLayout.CENTER);
     }
 //
 //    @Override
