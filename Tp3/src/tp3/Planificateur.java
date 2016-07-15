@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tp3;
 
 import java.awt.event.ActionEvent;
@@ -15,46 +10,94 @@ import javax.swing.plaf.FontUIResource;
 
 /**
  *
- * @author flavo
+ * @author flavoie Fabien Lavoie lavf27046702
+ *
+ * planificateur hebdomadaire. Cette interface va permettre l’ajout, la
+ * modification et la suppression d’activité. Ces activités vont être placé en
+ * ordre d’heure de début et contenir une courte description.
  */
 //public class Guiex extends JFrame implements ActionListener {
 public class Planificateur extends JFrame {
 
-    public static final int BORDURE_X = 430;
-    public static final int BORDURE_Y = 120;
-    JButton btnJouerNote;
-    JMenuBar barreMenuOnde;
-    JLabel titreChamps;
-    JLabel titreChamps1;
-    JTextField saisieADSR_R;
-    JTextField saisieADSR_R1;
+//    public static final int BORDURE_X = 430;
+//    public static final int BORDURE_Y = 120;
+    JButton btnNouveaua;
+
+    JLabel Filler1;
+    JLabel Filler2;
+    JLabel Filler3;
+    JLabel Filler4;
+    JLabel titre;
+    JLabel Heure;
+    JLabel Description;
+    JTextField saisieTitre;
+    JTextField saisieHeure;
+    JTextArea saisieDescription;
 
     Container contenu;
-    JPanel panneau_de_composants;
+    JPanel DetailItem;
+    JPanel DetailItem1;
+    JPanel DetailItem2;
+    JPanel DetailItem3;
 
     public Planificateur() {
         setUIFont(new FontUIResource(new Font("Arial", 0, 40)));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         contenu = getContentPane();
-        panneau_de_composants = new JPanel();
-        panneau_de_composants.setLayout(new GridLayout(2, 2));
-        panneau_de_composants.setBackground(Color.LIGHT_GRAY);
-        titreChamps = new JLabel("Test1 :                         ");
-        saisieADSR_R = new JTextField("");
-        panneau_de_composants.add(titreChamps);
-        panneau_de_composants.add(saisieADSR_R);
-        titreChamps1 = new JLabel("Test2 :                         ");
-        saisieADSR_R1 = new JTextField("");
-        panneau_de_composants.add(titreChamps1);
-        panneau_de_composants.add(saisieADSR_R1);
-        contenu.add(panneau_de_composants, BorderLayout.CENTER);
-        afficherMenu();
+        //Construction de la section detail
+        DetailItem = new JPanel();
+        DetailItem.setLayout(new GridLayout(3, 1));
+        DetailItem.setBackground(Color.LIGHT_GRAY);
+        DetailItem1 = new JPanel();
+        DetailItem1.setLayout(new GridLayout(4, 2));
+        DetailItem1.setBackground(Color.LIGHT_GRAY);
+        DetailItem2 = new JPanel();
+        DetailItem2.setLayout(new GridLayout(1, 2));
+        DetailItem2.setBackground(Color.LIGHT_GRAY);
+        DetailItem3 = new JPanel();
+        DetailItem3.setLayout(new GridLayout(1, 3));
+        DetailItem3.setBackground(Color.LIGHT_GRAY);
+
+        Filler1 = new JLabel("");
+        DetailItem1.add(Filler1);
+        Filler1 = new JLabel("");
+        DetailItem1.add(Filler1);
+        Filler1 = new JLabel("");
+        DetailItem1.add(Filler1);
+        Filler1 = new JLabel("");
+        DetailItem1.add(Filler1);
+
+        titre = new JLabel("Titre :");
+        DetailItem1.add(titre);
+        saisieTitre = new JTextField("");
+        DetailItem1.add(saisieTitre);
+
+        Heure = new JLabel("Heure :");
+        DetailItem1.add(Heure);
+        saisieHeure = new JTextField("");
+        DetailItem1.add(saisieHeure);
+
+        Description = new JLabel("Description : ");
+        DetailItem2.add(Description);
+        saisieDescription = new JTextArea("");
+        saisieDescription.setColumns(20);
+        saisieDescription.setRows(10);
+        DetailItem2.add(saisieDescription);
+
+        DetailItem.add(DetailItem1);
+        DetailItem.add(DetailItem2);
+        DetailItem.add(DetailItem3);
+        contenu.add(DetailItem, BorderLayout.CENTER);
+
+        //fin de section detail
         pack();
         setVisible(true);
     }
 
     public static void setUIFont(FontUIResource f) {
+        // methode pour ajuster la font 
+        // besoin d<ajuster font sur ecran 4k
         Enumeration keys = UIManager.getDefaults().keys();
         while (keys.hasMoreElements()) {
             Object key = keys.nextElement();
@@ -65,33 +108,6 @@ public class Planificateur extends JFrame {
                 UIManager.put(key, new FontUIResource(font));
             }
         }
-    }
-
-    private void afficherMenu() {
-
-        barreMenuOnde = new JMenuBar();
-
-        // Ajouter la barre de menu sur la fenetre
-        setJMenuBar(barreMenuOnde);
-
-        // Ajouter le menu de choix d'onde sur la barre
-        JMenu menu = new JMenu("Menu Choisir Test");
-        barreMenuOnde.add(menu);
-
-        // Ajouter les differents choix au menu
-        JMenuItem opt1 = new JMenuItem("1- Nom");
-        opt1.setActionCommand("t1");
-
-        JMenuItem opt2 = new JMenuItem("2- Prenom");
-        opt2.setActionCommand("t2");
-
-        opt1.addActionListener((e) -> titreChamps.setText(opt1.getText()));
-
-//        opt1.addActionListener(this);
-        opt2.addActionListener((e) -> titreChamps.setText(opt2.getText()));
-
-        menu.add(opt1);
-        menu.add(opt2);
     }
 //
 //    @Override
@@ -104,10 +120,6 @@ public class Planificateur extends JFrame {
 //        // rendre visible les changements sur la fenetre
 //        this.setVisible(true);
 //    }
-
-    public static void jouerNote(int a) {
-        int qq = 0;
-    }
 
     public static void main(String[] args) {
         Planificateur ecran = new Planificateur();
