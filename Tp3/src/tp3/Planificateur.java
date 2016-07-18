@@ -3,7 +3,7 @@ package tp3;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Enumeration;
-
+import java.awt.event.ActionEvent;
 import javax.swing.plaf.FontUIResource;
 
 /**
@@ -93,8 +93,6 @@ public class Planificateur extends JFrame {
     private void afficheListeTitre() {
         //Construction de la section detail
         ListeTitre = new javax.swing.JList<>();
-
-//        ListeTitre.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         ListeTitre.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = {"Titre 1             ", "Titre 2", "Titre 3", "Titre 4", "Titre 5", "Titre 6", "Titre 7", "Titre 8", "Titre 9", "Titre 10"};
 
@@ -106,8 +104,15 @@ public class Planificateur extends JFrame {
                 return strings[i];
             }
         });
-
+        ListeTitre.addListSelectionListener((e) -> saisieTitre.setText(ListeTitre.getSelectedValue()));
         contenu.add(ListeTitre, BorderLayout.WEST);
+    }
+
+    private void faireItem(String text, double par, String text1) {
+                Item monItem = new Item(saisieTitre.getText(),10.5,saisieDescription.getText());
+                ABR_activités mesActivités = new ABR_activités(monItem);
+                System.out.println(mesActivités.parcoursInfixe(mesActivités));
+                System.out.println("item ajiuté");
     }
 
     private void afficheDetail() {
@@ -138,6 +143,7 @@ public class Planificateur extends JFrame {
         Heure = new JLabel("Heure :");
         DetailItem1.add(Heure);
         saisieHeure = new JTextField("");
+        saisieHeure.setToolTipText("hh:mm (hh=0..23) (mm=0..59)");
         DetailItem1.add(saisieHeure);
 
         Description = new JLabel("Description : ");
@@ -156,6 +162,8 @@ public class Planificateur extends JFrame {
         DetailItem.add(DetailItem2);
         DetailItem.add(DetailItem3);
         contenu.add(DetailItem, BorderLayout.CENTER);
+//               ListeTitre.addListSelectionListener((e) -> saisieTitre.setText(ListeTitre.getSelectedValue()));
+        btnSauvegarder.addActionListener((action) -> faireItem(saisieTitre.getText(),11.5,saisieDescription.getText()));
     }
 //
 //    @Override
