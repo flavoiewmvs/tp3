@@ -38,6 +38,7 @@ public class Planificateur extends JFrame {
     JPanel DetailItem1;
     JPanel DetailItem2;
     JPanel DetailItem3;
+    JPanel DetailItem4;
     JButton btnSauvegarder;
 //champ secton ListeTitra
 //    JPanel ListeTitre;
@@ -117,18 +118,26 @@ public class Planificateur extends JFrame {
 
     private void afficheDetail() {
         //Construction de la section detail
+        //je divise en trois ma section detail pour le formatage
         DetailItem = new JPanel();
         DetailItem.setLayout(new GridLayout(3, 1));
         DetailItem.setBackground(Color.LIGHT_GRAY);
+        //portion detail titre et heure
         DetailItem1 = new JPanel();
         DetailItem1.setLayout(new GridLayout(6, 2));
         DetailItem1.setBackground(Color.LIGHT_GRAY);
+        //portion de la description
         DetailItem2 = new JPanel();
         DetailItem2.setLayout(new GridLayout(1, 2));
         DetailItem2.setBackground(Color.LIGHT_GRAY);
+        //portion de l action
         DetailItem3 = new JPanel();
         DetailItem3.setLayout(new GridLayout(6, 2));
         DetailItem3.setBackground(Color.LIGHT_GRAY);
+        DetailItem4 = new JPanel();
+        DetailItem4.setLayout(new BorderLayout());
+        DetailItem4.setBackground(Color.LIGHT_GRAY);
+
 //ajout de champs vide pour avoir un hauteur de champs normal
         for (int i = 1; i <= 8; ++i) {
             Filler1 = new JLabel("");
@@ -156,7 +165,8 @@ public class Planificateur extends JFrame {
         Filler2 = new JLabel("");
         DetailItem3.add(Filler2);
         btnSauvegarder = new JButton("Sauvegarder");
-        DetailItem3.add(btnSauvegarder);
+        DetailItem3.add(DetailItem4);
+        DetailItem4.add(btnSauvegarder, BorderLayout.EAST);
 
         DetailItem.add(DetailItem1);
         DetailItem.add(DetailItem2);
