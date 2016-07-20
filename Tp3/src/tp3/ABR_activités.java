@@ -27,7 +27,17 @@ public class ABR_activités<E extends Comparable<E>> {
         _gauche = null;
         _droite = null;
     }
+   public E getElement() {
+        return _element;
+    }
 
+    public ABR_activités<E> getGauche() {
+        return _gauche;
+    }
+
+    public ABR_activités<E> getDroite() {
+        return _droite;
+    }
     public ABR_activités<E> inserer(E element) {
         int direction = element.compareTo(_element);
         if (direction < 0) {
@@ -37,19 +47,77 @@ public class ABR_activités<E extends Comparable<E>> {
         }
         return this;
     }
-public E parcoursInfixe(ABR_activités<E> a) 
-{
-//  if (a == null)
-    
-  parcoursInfixe(a._gauche);
-//  System.out.print(a._element + " ");
-  parcoursInfixe(a._droite);
-  return a._element;
-}
 
     public int taille() {
         return ((_gauche == null) ? 0 : _gauche.taille()) + ((_droite == null) ? 0 : _droite.taille()) + 1;
     }
 
- 
+     protected E elementPlusAGauche() {
+        return (_gauche == null) ? _element : _gauche.elementPlusAGauche();
+    }
+
+    public ABR_activités<E> supprimer(E element) {
+        ABR_activités<E> resultat = this;
+        int direction = element.compareTo(_element);
+        if (direction < 0) {
+            if (_gauche != null) {
+                _gauche = _gauche.supprimer(element);
+            }
+        } else if (direction > 0) {
+            if (_droite != null) {
+                _droite = _droite.supprimer(element);
+            }
+        } else if (_gauche == null) {; // 2 cas >>>
+            resultat = _droite;
+        } else if (_droite == null) {
+            resultat = _gauche;
+
+        } else {
+            _element = _droite.elementPlusAGauche();
+            _droite = _droite.supprimer(_element);
+        }
+        return resultat;
+    }
+
+    /**
+     * Affiche l'arbre selon un parcours prefixe
+     */
+    public void ParcoursPrefixe() {
+        System.out.print(getElement() + ",");
+        if (getGauche() != null) {
+            getGauche().ParcoursPrefixe();
+        }
+        if (getDroite() != null) {
+            getDroite().ParcoursPrefixe();
+        }
+    }
+
+    /**
+     * Affiche l'arbre selon un parcours infixe
+     */
+    public Item[] ParcoursInfixe() {
+        Item[] listeItem= new Item[this.taille()];
+        if (getGauche() != null) {
+            getGauche().ParcoursInfixe();
+        }
+        System.out.print(getElement()+",");
+        if (getDroite() != null) {
+            getDroite().ParcoursInfixe();
+        }
+        return listeItem;
+    }
+
+    /**
+     * Affiche l'arbre selon un parcours Suffixe
+     */
+    public void ParcoursSuffixe() {
+        if (getGauche() != null) {
+            getGauche().ParcoursSuffixe();
+        }
+        if (getDroite() != null) {
+            getDroite().ParcoursSuffixe();
+        }
+        System.out.print(getElement() + ",");
+    }
+
 }

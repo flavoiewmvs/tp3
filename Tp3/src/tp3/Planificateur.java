@@ -109,10 +109,10 @@ public class Planificateur extends JFrame {
     }
 
     private void faireItem(String text, double par, String text1) {
-                Item monItem = new Item(saisieTitre.getText(),10.5,saisieDescription.getText());
-                ABR_activités mesActivités = new ABR_activités(monItem);
-                System.out.println(mesActivités.parcoursInfixe(mesActivités));
-                System.out.println("item ajiuté");
+        Item monItem = new Item(saisieTitre.getText(), 10.5, saisieDescription.getText());
+        ABR_activités mesActivités = new ABR_activités(monItem);
+        System.out.println(mesActivités.ParcoursInfixe());
+        System.out.println("item ajouté");
     }
 
     private void afficheDetail() {
@@ -163,7 +163,7 @@ public class Planificateur extends JFrame {
         DetailItem.add(DetailItem3);
         contenu.add(DetailItem, BorderLayout.CENTER);
 //               ListeTitre.addListSelectionListener((e) -> saisieTitre.setText(ListeTitre.getSelectedValue()));
-        btnSauvegarder.addActionListener((action) -> faireItem(saisieTitre.getText(),11.5,saisieDescription.getText()));
+        btnSauvegarder.addActionListener((action) -> faireItem(saisieTitre.getText(), 11.5, saisieDescription.getText()));
     }
 //
 //    @Override
