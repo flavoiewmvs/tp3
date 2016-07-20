@@ -155,7 +155,7 @@ public class Planificateur extends JFrame {
 
         Filler2 = new JLabel("");
         DetailItem3.add(Filler2);
-        btnSauvegarder = new JButton("Sauvegarder:");
+        btnSauvegarder = new JButton("Sauvegarder");
         DetailItem3.add(btnSauvegarder);
 
         DetailItem.add(DetailItem1);
