@@ -2,8 +2,9 @@ package tp3;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Enumeration;
-import java.awt.event.ActionEvent;
+//import java.awt.event.ActionEvent;
 import javax.swing.plaf.FontUIResource;
 
 /**
@@ -16,9 +17,6 @@ import javax.swing.plaf.FontUIResource;
  */
 //public class Guiex extends JFrame implements ActionListener {
 public class Planificateur extends JFrame {
-
-//    public static final int BORDURE_X = 430;
-//    public static final int BORDURE_Y = 120;
 //champs section action
     JPanel action;
     JButton btnAjouter;
@@ -44,12 +42,14 @@ public class Planificateur extends JFrame {
 //    JPanel ListeTitre;
 //    JLabel Titre1;
     JList<String> ListeTitre;
+    ABR_activités mesActivités;
 
     public Planificateur() {
         setUIFont(new FontUIResource(new Font("Arial", 0, 40)));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         contenu = getContentPane();
+        faireABR();
         afficheAction();
         afficheListeTitre();
         afficheDetail();
@@ -94,26 +94,34 @@ public class Planificateur extends JFrame {
     private void afficheListeTitre() {
         //Construction de la section detail
         ListeTitre = new javax.swing.JList<>();
-        ListeTitre.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = {"Titre 1             ", "Titre 2", "Titre 3", "Titre 4", "Titre 5", "Titre 6", "Titre 7", "Titre 8", "Titre 9", "Titre 10"};
-
-            public int getSize() {
-                return strings.length;
-            }
-
-            public String getElementAt(int i) {
-                return strings[i];
-            }
-        });
+        FaitListe maListe = new FaitListe();
+        ListeTitre.setModel(maListe);
         ListeTitre.addListSelectionListener((e) -> saisieTitre.setText(ListeTitre.getSelectedValue()));
+        Integer indice = 0;
+//        Item[] listeItem = new Item[mesActivités.taille()];
+        ArrayList<Item> listeItem = new ArrayList<Item>();
+        mesActivités.ParcoursInfixe(listeItem);
+        for (int i = 0; i < mesActivités.taille(); ++i) {
+            maListe.setValeur(listeItem.get(i).faitAffichageListe(), i);
+        }
+        ListeTitre.repaint();
         contenu.add(ListeTitre, BorderLayout.WEST);
+        pack();
+
     }
 
     private void faireItem(String text, double par, String text1) {
-        Item monItem = new Item(saisieTitre.getText(), 10.5, saisieDescription.getText());
-        ABR_activités mesActivités = new ABR_activités(monItem);
-        System.out.println(mesActivités.ParcoursInfixe());
+        Item monItem = new Item(saisieTitre.getText(), Item.faitHeureDouble(saisieHeure.getText()), saisieDescription.getText());
+        this.mesActivités.inserer(monItem);
+        afficheListeTitre();
         System.out.println("item ajouté");
+    }
+
+    private void faireABR() {
+// j initialise mon arbre binaire avec une valeur a midi pour balancer mon arbre
+        Item monItem = new Item("init           ", 12, "               ");
+        this.mesActivités = new ABR_activités(monItem);
+        System.out.println("Arbre Initialisé");
     }
 
     private void afficheDetail() {

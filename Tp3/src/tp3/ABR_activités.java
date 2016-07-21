@@ -9,6 +9,8 @@ J'ai repris la structure vue en classe
  */
 package tp3;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author flavoie Fabien Lavoie lavf27046702
@@ -95,16 +97,16 @@ public class ABR_activités<E extends Comparable<E>> {
     /**
      * Affiche l'arbre selon un parcours infixe
      */
-    public Item[] ParcoursInfixe() {
-        Item[] listeItem= new Item[this.taille()];
+    public void ParcoursInfixe(ArrayList<Item> items) {
+//        Item[] listeItem= new Item[this.taille()];
         if (getGauche() != null) {
-            getGauche().ParcoursInfixe();
+            getGauche().ParcoursInfixe(items);
         }
-        System.out.print(getElement()+",");
+        items.add((Item) getElement());
         if (getDroite() != null) {
-            getDroite().ParcoursInfixe();
+            getDroite().ParcoursInfixe(items);
         }
-        return listeItem;
+//        return listeItem;
     }
 
     /**
