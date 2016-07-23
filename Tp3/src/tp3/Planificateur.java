@@ -9,7 +9,7 @@ import javax.swing.event.ListSelectionListener;
 //import java.awt.event.ActionEvent;
 import javax.swing.plaf.FontUIResource;
 
-/**
+/**desc
  *
  * @author flavoie Fabien Lavoie lavf27046702
  *
@@ -73,8 +73,8 @@ public class Planificateur extends JFrame {
         pack();
         setVisible(true);
     }
-
     public static void setUIFont(FontUIResource f) {
+
         // methode pour ajuster la font 
         // besoin d<ajuster font sur ecran 4k
         Enumeration keys = UIManager.getDefaults().keys();
