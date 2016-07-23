@@ -47,9 +47,9 @@ public class Item implements Comparable<Item> {
         int mm = (int) pDecimalhh;
         int longueur = (titre.length() > 15 ? 15 : titre.length());
         String retour = "";
-        if (titre == "init           ") {
-            retour = "";
-        } else {
+        if (heure == 23.99) {
+            retour = "___________________";
+         } else {
             retour = (hh < 10 ? "0" : "") + hh;
             retour += ":" + (mm < 10 ? "0" : "") + mm;
             retour += " " + titre.substring(0, longueur);

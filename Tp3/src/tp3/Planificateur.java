@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 //import java.awt.event.ActionEvent;
 import javax.swing.plaf.FontUIResource;
 
@@ -18,6 +20,7 @@ import javax.swing.plaf.FontUIResource;
 //public class Guiex extends JFrame implements ActionListener {
 public class Planificateur extends JFrame {
 //champs section action
+
     JPanel action;
     JButton btnAjouter;
     JButton btnSupprimer;
@@ -41,19 +44,31 @@ public class Planificateur extends JFrame {
 //champ secton ListeTitra
 //    JPanel ListeTitre;
 //    JLabel Titre1;
-    JList<String> ListeTitre;
+    JList list;
+
+    DefaultListModel model;
+
+    int counter = 10;
+
+//    JList<String> ListeTitre;
     ABR_activités mesActivités;
 
     public Planificateur() {
-        setUIFont(new FontUIResource(new Font("Arial", 0, 40)));
+        setUIFont(new FontUIResource(new Font("Courrier", 0, 40)));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         contenu = getContentPane();
         faireABR();
         afficheAction();
-        afficheListeTitre();
+        testlist();
+//        afficheListeTitre();
         afficheDetail();
-
+        saisieDescription.setEnabled(false);
+        saisieHeure.setEnabled(false);
+        saisieTitre.setEnabled(false);
+        btnSauvegarder.setEnabled(false);
+        btnSupprimer.setEnabled(false);
+        btnAjouter.setEnabled(true);
         //fin de section detail
         pack();
         setVisible(true);
@@ -81,6 +96,8 @@ public class Planificateur extends JFrame {
 
         btnAjouter = new JButton("Ajouter");
         btnSupprimer = new JButton("Supprimer");
+        btnAjouter.addActionListener((action) -> ajoutItem());
+        btnSupprimer.addActionListener((action) -> effaceItem());
         Filler1 = new JLabel("");
         action.add(Filler1);
         action.add(btnAjouter);
@@ -90,36 +107,133 @@ public class Planificateur extends JFrame {
 
         contenu.add(action, BorderLayout.NORTH);
     }
-
+private void testlist(){
+           list.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        list.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
+              contenu.add(list, BorderLayout.WEST);
+}
+  private void jList1MouseClicked(java.awt.event.MouseEvent evt) {                                    
+        // TODO add your handling code here:
+        String test = (String) list.getSelectedValue();
+        System.out.println(test);
+    }                
     private void afficheListeTitre() {
         //Construction de la section detail
-        ListeTitre = new javax.swing.JList<>();
-        FaitListe maListe = new FaitListe();
-        ListeTitre.setModel(maListe);
-        ListeTitre.addListSelectionListener((e) -> saisieTitre.setText(ListeTitre.getSelectedValue()));
+//        ListeTitre = new javax.swing.JList<>();
+//        FaitListe maListe = new FaitListe();
+//        ListeTitre.setModel(maListe);
+//        ListeTitre.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+////        ListeTitre.addListSelectionListener((e) -> saisieDescription.setText(ListeTitre.getSelectedValue()));
+////        ListeTitre.addListSelectionListener((e) -> afficheItem());
+// 
+
+        model = new DefaultListModel();
+        list = new JList(model);
+
         Integer indice = 0;
-//        Item[] listeItem = new Item[mesActivités.taille()];
         ArrayList<Item> listeItem = new ArrayList<Item>();
         mesActivités.ParcoursInfixe(listeItem);
         for (int i = 0; i < mesActivités.taille(); ++i) {
-            maListe.setValeur(listeItem.get(i).faitAffichageListe(), i);
+            model.addElement(listeItem.get(i).faitAffichageListe());
+//            ListeTitre.maListe.setValeur(listeItem.get(i).faitAffichageListe(), i);
+//            maListe.setValeur(listeItem.get(i).faitAffichageListe(), i);
         }
-        ListeTitre.repaint();
-        contenu.add(ListeTitre, BorderLayout.WEST);
-        pack();
-
+//        list.addListSelectionListener(this);
+//        list.addListSelectionListener((e) -> afficheItem());
+        list.repaint();
+        contenu.add(list, BorderLayout.WEST);
     }
 
-    private void faireItem(String text, double par, String text1) {
+//       @Override
+//    public void valueChanged(ListSelectionEvent e) {
+//         String test = (String)list.getSelectedValue();
+//                 int[] ind = list.getSelectedIndices();
+//                 int index = list.getSelectedIndex();
+//           System.out.println(test+ind);
+//    }
+    private void afficheItem() {
+        String test = (String)list.getSelectedValue();
+        int[] ind = list.getSelectedIndices();
+        Object itemSelectionné = list.getSelectedValue();
+//        String heureSelectionText = itemSelectionné.substring(0, 5);
+//        if (heureSelectionText != "_____") {
+//            double heureSelection = Item.faitHeureDouble(heureSelectionText);
+//            Item monItemCherché = new Item("", heureSelection, " ");
+//            Item itemSelectioné = (Item) this.mesActivités.chercher(monItemCherché).getElement();
+//            saisieDescription.setText(itemSelectioné.getDescription());
+////            saisieHeure.setText(itemSelectioné.getHeure());
+//            saisieTitre.setText(itemSelectioné.getTitre());
+////        DetailItem2.repaint();
+//            pack();
+//            saisieDescription.setEnabled(true);
+//            saisieHeure.setEnabled(true);
+//            saisieTitre.setEnabled(true);
+//            btnSauvegarder.setEnabled(true);
+//            btnSupprimer.setEnabled(true);
+//            btnAjouter.setEnabled(false);
+//        } else {
+//
+//        }
+    }
+
+    private void ajoutItem() {
+        saisieDescription.setText("");
+        saisieHeure.setText("");
+        saisieTitre.setText("");
+//        DetailItem2.repaint();
+        pack();
+        saisieDescription.setEnabled(true);
+        saisieHeure.setEnabled(true);
+        saisieTitre.setEnabled(true);
+        btnSauvegarder.setEnabled(true);
+        btnSupprimer.setEnabled(true);
+        btnAjouter.setEnabled(false);
+    }
+
+    private void effaceItem() {
+        saisieDescription.setText("");
+        saisieHeure.setText("");
+        saisieTitre.setText("");
+//        DetailItem2.repaint();
+        saisieDescription.setEnabled(false);
+        saisieHeure.setEnabled(false);
+        saisieTitre.setEnabled(false);
+        btnSauvegarder.setEnabled(false);
+        btnSupprimer.setEnabled(false);
+        btnAjouter.setEnabled(true);
+        pack();
+    }
+
+    private void faireItem() {
         Item monItem = new Item(saisieTitre.getText(), Item.faitHeureDouble(saisieHeure.getText()), saisieDescription.getText());
         this.mesActivités.inserer(monItem);
         afficheListeTitre();
         System.out.println("item ajouté");
+        list.repaint();
+        contenu.add(list, BorderLayout.WEST);
+        saisieDescription.setText("");
+        saisieHeure.setText("");
+        saisieTitre.setText("");
+        btnSauvegarder.setEnabled(false);
+        btnSupprimer.setEnabled(false);
+        btnAjouter.setEnabled(true);
+        saisieDescription.setEnabled(false);
+        saisieHeure.setEnabled(false);
+        saisieTitre.setEnabled(false);
+        pack();
     }
 
     private void faireABR() {
 // j initialise mon arbre binaire avec une valeur a midi pour balancer mon arbre
-        Item monItem = new Item("init           ", 12, "               ");
+        Item monItem = new Item("___________________", 23.99, "               ");
         this.mesActivités = new ABR_activités(monItem);
         System.out.println("Arbre Initialisé");
     }
@@ -181,7 +295,8 @@ public class Planificateur extends JFrame {
         DetailItem.add(DetailItem3);
         contenu.add(DetailItem, BorderLayout.CENTER);
 //               ListeTitre.addListSelectionListener((e) -> saisieTitre.setText(ListeTitre.getSelectedValue()));
-        btnSauvegarder.addActionListener((action) -> faireItem(saisieTitre.getText(), 11.5, saisieDescription.getText()));
+//        btnSauvegarder.addActionListener((action) -> faireItem(saisieTitre.getText(), 11.5, saisieDescription.getText()));
+        btnSauvegarder.addActionListener((action) -> faireItem());
     }
 //
 //    @Override
@@ -198,5 +313,7 @@ public class Planificateur extends JFrame {
     public static void main(String[] args) {
         Planificateur ecran = new Planificateur();
     }
+
+ 
 
 }

@@ -29,7 +29,8 @@ public class ABR_activités<E extends Comparable<E>> {
         _gauche = null;
         _droite = null;
     }
-   public E getElement() {
+
+    public E getElement() {
         return _element;
     }
 
@@ -40,6 +41,7 @@ public class ABR_activités<E extends Comparable<E>> {
     public ABR_activités<E> getDroite() {
         return _droite;
     }
+
     public ABR_activités<E> inserer(E element) {
         int direction = element.compareTo(_element);
         if (direction < 0) {
@@ -50,11 +52,32 @@ public class ABR_activités<E extends Comparable<E>> {
         return this;
     }
 
+    public ABR_activités<E> chercher(E element) {
+        boolean pasLa = false;
+        int direction = element.compareTo(_element);
+        if (direction < 0) {
+            if (_gauche == null) {
+                pasLa = true;
+                //lever exception ici
+            } else {
+                _gauche = _gauche.chercher(element);
+            }
+        } else if (direction > 0) {
+            if (_droite == null) {
+                pasLa = true;
+//                lever exception ici 
+            } else {
+                _droite = _droite.chercher(element);
+            }
+        }
+        return this;
+    }
+
     public int taille() {
         return ((_gauche == null) ? 0 : _gauche.taille()) + ((_droite == null) ? 0 : _droite.taille()) + 1;
     }
 
-     protected E elementPlusAGauche() {
+    protected E elementPlusAGauche() {
         return (_gauche == null) ? _element : _gauche.elementPlusAGauche();
     }
 
